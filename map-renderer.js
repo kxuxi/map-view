@@ -1,6 +1,19 @@
 (() => {
   const mapView = globalThis.CityMapView;
   const SIDES = ['top', 'right', 'bottom', 'left'];
+  const MAX_FONT = 12;
+  const MIN_FONT = 7;
+
+  // 都市名がセルからはみ出さないよう、収まるまでフォントを縮小する
+  function fitLabel(label) {
+    let size = MAX_FONT;
+    label.style.setProperty('--cc-font-size', `${size}px`);
+    while (size > MIN_FONT &&
+      (label.scrollHeight > label.clientHeight + 1 || label.scrollWidth > label.clientWidth + 1)) {
+      size -= 0.5;
+      label.style.setProperty('--cc-font-size', `${size}px`);
+    }
+  }
 
   function clearMapDecorations() {
     document.querySelectorAll('.cc-cell-label, .cc-cell-edge').forEach(element => element.remove());
@@ -69,6 +82,7 @@
       box.style.setProperty('--cc-fill', mapView.mix(rgb, [255, 255, 255], .72));
       box.style.setProperty('--cc-ink', mapView.mix(rgb, [0, 0, 0], .6));
       box.style.setProperty('--cc-border-width', `${item.borderWidth}px`);
+      fitLabel(label);
     }
   }
 

@@ -25,8 +25,8 @@
   display: flex; align-items: center; justify-content: center;
   position: absolute; inset: 0; z-index: 1; padding: 18px 2px 4px;
   color: var(--cc-ink, #222); text-align: center; pointer-events: none;
-  font: bold 12px/1.2 "Hiragino Sans", "Yu Gothic", sans-serif;
-  overflow-wrap: anywhere;
+  font: bold var(--cc-font-size, 12px)/1.15 "Hiragino Sans", "Yu Gothic", sans-serif;
+  overflow: hidden; overflow-wrap: anywhere; word-break: break-all;
 }
 .cc-cell-edge { position: absolute; z-index: 2; box-sizing: border-box; pointer-events: none; }
 /* 現在地：国境・点線の内側に白い枠を引く */
