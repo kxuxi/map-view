@@ -4,7 +4,7 @@
   const MAX_FONT = 12;
   const MIN_FONT = 7;
 
-  // 都市名がセルからはみ出さないよう、収まるまでフォントを縮小する
+  // 都市名がセルからはみ出さない最大フォントサイズを求めて返す
   function fitLabel(label) {
     let size = MAX_FONT;
     label.style.setProperty('--cc-font-size', `${size}px`);
@@ -13,6 +13,7 @@
       size -= 0.5;
       label.style.setProperty('--cc-font-size', `${size}px`);
     }
+    return size;
   }
 
   function clearMapDecorations() {
@@ -72,6 +73,7 @@
     clearMapDecorations();
     const { items, nationColor } = mapView.collectMapItems();
 
+    const labels = [];
     for (const item of items) {
       const { box, isHere, city } = item;
       const { label, edge, rgb } = createCellDecorations(item, items, nationColor);
@@ -82,8 +84,12 @@
       box.style.setProperty('--cc-fill', mapView.mix(rgb, [255, 255, 255], .72));
       box.style.setProperty('--cc-ink', mapView.mix(rgb, [0, 0, 0], .6));
       box.style.setProperty('--cc-border-width', `${item.borderWidth}px`);
-      fitLabel(label);
+      labels.push(label);
     }
+
+    // 1つでも縮小が必要なら、見やすさのため全ラベルを同じ最小サイズに揃える
+    const minSize = labels.reduce((min, label) => Math.min(min, fitLabel(label)), MAX_FONT);
+    for (const label of labels) label.style.setProperty('--cc-font-size', `${minSize}px`);
   }
 
   mapView.renderMap = renderMap;

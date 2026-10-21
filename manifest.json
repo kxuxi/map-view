@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "己鯖地図ビューワー",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "地図に都市名、国ごとの色分け、国境と現在地を表示します。コマンドの送信や自動操作はしません。サーバーにも負荷はかかりません。",
   "content_scripts": [
     {
